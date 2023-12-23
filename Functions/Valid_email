@@ -1,0 +1,13 @@
+import re
+
+def is_valid_email(email):
+    pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    match = re.match(pattern, email)
+    return match is not None
+
+user_input = input("Enter an email address: ")
+
+if is_valid_email(user_input):
+    print("Valid email address.")
+else:
+    print("Invalid email address.")

@@ -1,0 +1,7 @@
+import math
+def hexagon_area(n):
+  a=((3*math.sqrt(3))/4)*(n*n)
+  return a
+
+area=hexagon_area(2)
+print("The area of hexagon is",area)

@@ -1,0 +1,27 @@
+class MovieTicket:
+  def __init__(self,movie_name,show_time,ticket_price,tickets_available):
+    self.movie_name=movie_name
+    self.show_time=show_time
+    self.ticket_price=ticket_price
+    self.tickets_available=tickets_available
+
+  def Book_Tickets(self,num_tickets):
+    if(num_tickets<=self.tickets_available):
+      self.tickets_available-=num_tickets
+      print("Booking successful,",num_tickets,"tickets for movie",self.movie_name,"Booked")
+    if(num_tickets>self.tickets_available):
+      print("Tickets are unavailable")
+
+  def calculate_total_cost(self,num_tickets):
+    return self.ticket_price*num_tickets
+
+  def movie_info(self):
+    print("Movie:",self.movie_name)
+    print("Show Time:",self.show_time)
+    print("Ticket Price:",self.ticket_price)
+    print("Tickets available:",self.tickets_available)
+
+movie1=MovieTicket('YJHD','6:00pm','500',10)
+movie1.Book_Tickets(4)
+movie1.calculate_total_cost(4)
+movie1.movie_info()

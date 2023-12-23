@@ -1,0 +1,30 @@
+def encrypt(text, shift):
+  result = ""
+  for letter in text:
+    if letter.islower():
+      letter = chr((ord(letter) - ord('a') + shift) % 26 + ord('a'))
+    elif letter.isupper():
+      letter = chr((ord(letter) - ord('A') + shift) % 26 + ord('A'))
+    result += letter
+  return result
+
+
+def decrypt(text, shift):
+  result = ""
+  for letter in text:
+    if letter.islower():
+      letter = chr((ord(letter) - ord('a') - shift) % 26 + ord('a'))
+    elif letter.isupper():
+      letter = chr((ord(letter) - ord('A') - shift) % 26 + ord('A'))
+    result += letter
+  return result
+
+
+text = input("Enter a message to encrypt: ")
+shift = int(input("Enter a shift value: "))
+
+encrypted_text = encrypt(text, shift)
+print("Encrypted text:", encrypted_text)
+
+decrypted_text = decrypt(encrypted_text, shift)
+print("Decrypted text:", decrypted_text)

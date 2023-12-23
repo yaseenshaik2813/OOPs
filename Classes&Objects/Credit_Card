@@ -1,0 +1,26 @@
+class CreditCard:
+    def __init__(self, limit):
+        self.__limit = limit
+        self.__balance = 0
+
+    def get_balance(self):
+        return self.__balance
+
+    def withdraw(self, amount):
+        if amount <= self.__balance:
+            self.__balance -= amount
+            return f"Withdrawal of ${amount} successful. New balance: ${self.__balance}"
+        else:
+            return "Insufficient funds."
+
+    def deposit(self, amount):
+        self.__balance += amount
+        return f"Deposit of ${amount} successful. New balance: ${self.__balance}"
+
+
+credit_card = CreditCard(5000)
+
+
+print(credit_card.get_balance())
+print(credit_card.deposit(1000))
+print(credit_card.withdraw(500))

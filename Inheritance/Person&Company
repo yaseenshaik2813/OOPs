@@ -1,0 +1,78 @@
+Create two parent classes Person and Company respectively.  Create one child called Employee which inherit from Person and Company classes to implement Multiple inheritance.   To demonstrate Multilevel inheritance three classes named Vehicle, Car, SportsCar need to be created. Vehicle is the superclass, Car is a child of Vehicle, SportsCar is a child of Car.
+
+class Person():
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def get_name(self):
+    return self.name
+
+  def get_age(self):
+    return self.age
+
+class Company():
+  def __init__(self, name, address):
+    self.name = name
+    self.address = address
+
+  def get_name(self):
+    return self.name
+
+  def get_address(self):
+    return self.address
+
+class Employee(Person, Company):
+  def __init__(self, name, age, company_name, company_address):
+    super().__init__(name, age)
+    self.company_name = company_name
+    self.company_address = company_address
+
+  def get_company_name(self):
+    return self.company_name
+
+  def get_company_address(self):
+    return self.company_address
+
+class Vehicle():
+  def __init__(self, make, model):
+    self.make = make
+    self.model = model
+
+  def get_make(self):
+    return self.make
+
+  def get_model(self):
+    return self.model
+
+class Car(Vehicle):
+  def __init__(self, make, model, num_wheels):
+    super().__init__(make, model)
+    self.num_wheels = num_wheels
+
+  def get_num_wheels(self):
+    return self.num_wheels
+
+class SportsCar(Car):
+  def __init__(self, make, model, num_wheels, top_speed):
+    super().__init__(make, model, num_wheels)
+    self.top_speed = top_speed
+
+  def get_top_speed(self):
+    return self.top_speed
+
+# Create instances of the classes
+person = Person("Smith Benjamin", 30)
+company = Company("Acme Corporation", "123 Main Street")
+employee = Employee("Jane Doe", 25, "Acme Corporation", "123 Main Street")
+vehicle = Vehicle("Toyota", "Camry")
+car = Car("Honda", "Civic", 4)
+sports_car = SportsCar("Porsche", "911", 2, 200)
+
+# Print the details of each instance
+print("Person:", person.get_name(), person.get_age())
+print("Company:", company.get_name(), company.get_address())
+print("Employee:", employee.get_name(), employee.get_age(), employee.get_company_name(), employee.get_company_address())
+print("Vehicle:", vehicle.get_make(), vehicle.get_model())
+print("Car:", car.get_make(), car.get_model(), car.get_num_wheels())
+print("SportsCar:", sports_car.get_make(), sports_car.get_model(), sports_car.get_num_wheels(), sports_car.get_top_speed())

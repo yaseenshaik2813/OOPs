@@ -1,0 +1,64 @@
+from abc import ABC, abstractmethod
+import random
+
+class GameObject(ABC):
+    @abstractmethod
+    def display(self):
+        pass
+
+class Player(GameObject):
+    def __init__(self, name, health):
+        self.name = name
+        self.health = health
+
+    def display(self):
+        print(f"{self.name} (Player) - Health: {self.health}")
+
+class Enemy(GameObject):
+    def __init__(self, name, damage):
+        self.name = name
+        self.damage = damage
+
+    def display(self):
+        print(f"{self.name} (Enemy) - Damage: {self.damage}")
+
+    def attack(self, player):
+        player.health -= self.damage
+        print(f"{self.name} attacks {player.name} for {self.damage} damage!")
+
+class PowerUp(GameObject):
+    @abstractmethod
+    def apply(self, target):
+        pass
+
+class Knight(Player):
+    def __init__(self, name, health):
+        super().__init__(name, health)
+
+class Dragon(Enemy):
+    def __init__(self, name, damage):
+        super().__init__(name, damage)
+
+class HealthPowerUp(PowerUp):
+    def display(self):
+        print("Health Power-Up")
+
+    def apply(self, target):
+        amount = random.randint(10, 20)
+        target.health += amount
+        print(f"{target.name} gained {amount} health from Health Power-Up!")
+
+# Game Simulation
+player1 = Knight("Sir Lancelot", 100)
+enemy1 = Dragon("Fire Dragon", 15)
+
+power_up = HealthPowerUp()
+
+player1.display()
+enemy1.display()
+
+enemy1.attack(player1)
+player1.display()
+
+power_up.apply(player1)
+player1.display()

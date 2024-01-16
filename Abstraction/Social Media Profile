@@ -1,0 +1,82 @@
+from abc import ABC, abstractmethod
+from typing import List
+
+class UserProfile(ABC):
+    def __init__(self, username: str, email: str, password: str):
+        self._username = username
+        self._email = email
+        self._password = password
+        self._posts = []
+
+    @abstractmethod
+    def post(self, content: str):
+        pass
+
+    @abstractmethod
+    def comment(self, post_id: int, comment_text: str):
+        pass
+
+    @abstractmethod
+    def like(self, post_id: int):
+        pass
+
+    def display_profile_info(self):
+        print(f"Username: {self._username}")
+        print(f"Email: {self._email}")
+        print("Number of Posts:", len(self._posts))
+
+class RegularUser(UserProfile):
+    def post(self, content: str):
+        post_id = len(self._posts) + 1
+        self._posts.append({"post_id": post_id, "content": content, "likes": 0, "comments": []})
+        print(f"Regular User '{self._username}' posted: {content}")
+
+    def comment(self, post_id: int, comment_text: str):
+        if 1 <= post_id <= len(self._posts):
+            self._posts[post_id - 1]["comments"].append({"user": self._username, "text": comment_text})
+            print(f"Regular User '{self._username}' commented on post {post_id}: {comment_text}")
+        else:
+            print(f"Invalid post_id: {post_id}")
+
+    def like(self, post_id: int):
+        if 1 <= post_id <= len(self._posts):
+            self._posts[post_id - 1]["likes"] += 1
+            print(f"Regular User '{self._username}' liked post {post_id}")
+        else:
+            print(f"Invalid post_id: {post_id}")
+
+class Admin(UserProfile):
+    def post(self, content: str):
+        post_id = len(self._posts) + 1
+        self._posts.append({"post_id": post_id, "content": content, "likes": 0, "comments": []})
+        print(f"Admin '{self._username}' posted: {content}")
+
+    def comment(self, post_id: int, comment_text: str):
+        if 1 <= post_id <= len(self._posts):
+            self._posts[post_id - 1]["comments"].append({"user": self._username, "text": comment_text})
+            print(f"Admin '{self._username}' commented on post {post_id}: {comment_text}")
+        else:
+            print(f"Invalid post_id: {post_id}")
+
+    def like(self, post_id: int):
+        if 1 <= post_id <= len(self._posts):
+            self._posts[post_id - 1]["likes"] += 1
+            print(f"Admin '{self._username}' liked post {post_id}")
+        else:
+            print(f"Invalid post_id: {post_id}")
+
+# Example Usage:
+regular_user = RegularUser("Yaseen_Shaik", "yaseen@gmail.com", "yaseen1234")
+admin_user = Admin("admin", "admin@outlook.com", "admin_password")
+
+regular_user.post("Hello, everyone! This is my first post.")
+admin_user.post("Welcome to the platform! Feel free to ask any questions.")
+
+regular_user.comment(1, "Nice post!")
+admin_user.comment(2, "Thanks for the welcome!")
+
+regular_user.like(2)
+admin_user.like(1)
+
+regular_user.display_profile_info()
+admin_user.display_profile_info()

@@ -1,0 +1,61 @@
+from abc import ABC, abstractmethod
+
+class Investment(ABC):
+    def __init__(self, name, amount, annual_return):
+        self.name = name
+        self.amount = amount
+        self.annual_return = annual_return
+
+    @abstractmethod
+    def calculate_return(self):
+        pass
+
+class Stock(Investment):
+    def __init__(self, name, amount, annual_return, volatility):
+        super().__init__(name, amount, annual_return)
+        self.volatility = volatility
+
+    def calculate_return(self):
+        return self.amount * (1 + self.annual_return + self.volatility)
+
+class Bond(Investment):
+    def __init__(self, name, amount, annual_return, maturity):
+        super().__init__(name, amount, annual_return)
+        self.maturity = maturity
+
+    def calculate_return(self):
+        return self.amount * (1 + self.annual_return) + self.maturity
+
+class RealEstate(Investment):
+    def __init__(self, name, amount, annual_return, property_value):
+        super().__init__(name, amount, annual_return)
+        self.property_value = property_value
+
+    def calculate_return(self):
+        return self.amount * (1 + self.annual_return) + self.property_value
+
+class Portfolio:
+    def __init__(self):
+        self.investments = []
+
+    def add_investment(self, investment):
+        self.investments.append(investment)
+
+    def calculate_portfolio_return(self):
+        total_return = 0
+        for investment in self.investments:
+            total_return += investment.calculate_return()
+        return total_return
+
+# Example usage:
+stock1 = Stock("TechStock", 10000, 0.1, 0.05)
+bond1 = Bond("GovernmentBond", 5000, 0.05, 1000)
+real_estate1 = RealEstate("ResidentialProperty", 20000, 0.08, 5000)
+
+portfolio = Portfolio()
+portfolio.add_investment(stock1)
+portfolio.add_investment(bond1)
+portfolio.add_investment(real_estate1)
+
+total_portfolio_return = portfolio.calculate_portfolio_return()
+print(f"Total Portfolio Return: ${total_portfolio_return:.2f}")

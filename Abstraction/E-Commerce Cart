@@ -1,0 +1,128 @@
+from abc import ABC, abstractmethod
+from typing import List, Tuple, Optional
+
+class Product(ABC):
+  def __init__(self, name: str, price: float):
+    self._name = name
+    self._price = price
+
+  @property
+  def name(self) -> str:
+    return self._name
+
+  @property
+  def price(self) -> float:
+    return self._price
+
+  @abstractmethod
+  def get_details(self) -> str:
+    pass
+
+class PhysicalProduct(Product):
+  def __init__(self, name: str, price: float, weight: float):
+    super().__init__(name, price)
+    self._weight = weight
+
+  @property
+  def weight(self) -> float:
+    return self._weight
+
+  def get_details(self) -> str:
+    return f"{self.name} - {self.price} - {self.weight}"
+
+class DigitalProduct(Product):
+  def __init__(self, name: str, price: float, license_key: str):
+    super().__init__(name, price)
+    self._license_key = license_key
+
+  @property
+  def license_key(self) -> str:
+    return self._license_key
+
+  def get_details(self) -> str:
+    return f"{self.name} - {self.price} - {self.license_key}"
+
+class Cart(ABC):
+  def __init__(self):
+    self._items: List[Product] = []
+
+  @property
+  def items(self) -> List[Product]:
+    return self._items
+
+  @abstractmethod
+  def add_item(self, item: Product):
+    pass
+
+  @abstractmethod
+  def remove_item(self, item: Product):
+    pass
+
+  @abstractmethod
+  def get_total_price(self) -> float:
+    pass
+
+class ShoppingCart(Cart):
+  def add_item(self, item: Product):
+    self._items.append(item)
+
+  def remove_item(self, item: Product):
+    self._items.remove(item)
+
+  def get_total_price(self) -> float:
+    total_price = 0
+    for item in self._items:
+      total_price += item.price
+    return total_price
+
+class WishList(Cart):
+  def add_item(self, item: Product):
+    pass
+
+  def remove_item(self, item: Product):
+    pass
+
+  def get_total_price(self) -> float:
+    return 0
+
+class Customer:
+  def __init__(self, name: str, email: str):
+    self._name = name
+    self._email = email
+    self._shopping_cart = ShoppingCart()
+    self._wish_list = WishList()
+
+  @property
+  def name(self) -> str:
+    return self._name
+
+  @property
+  def email(self) -> str:
+    return self._email
+
+  @property
+  def shopping_cart(self) -> ShoppingCart:
+    return self._shopping_cart
+
+  @property
+  def wish_list(self) -> WishList:
+    return self._wish_list
+
+def main():
+  customer = Customer("John Doe", "johndoe@example.com")
+
+  # Add some items to the shopping cart.
+  customer.shopping_cart.add_item(PhysicalProduct("Book", 10.0, 1.0))
+  customer.shopping_cart.add_item(DigitalProduct("Software", 20.0, "1234567890"))
+
+  # Print the total price of the shopping cart.
+  print(f"Total price before removing item: {customer.shopping_cart.get_total_price()}")
+
+  # Remove an item from the shopping cart.
+  customer.shopping_cart.remove_item(customer.shopping_cart.items[0])
+
+  # Print the total price of the shopping cart again.
+  print(f"Total price after removing item: {customer.shopping_cart.get_total_price()}")
+
+if __name__ == "__main__":
+  main()

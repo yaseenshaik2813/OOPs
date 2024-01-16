@@ -1,0 +1,131 @@
+from abc import ABC, abstractmethod
+
+class LibraryItem(ABC):
+    def __init__(self, title, author, year_published):
+        self._title = title
+        self._author = author
+        self._year_published = year_published
+
+    @abstractmethod
+    def display_details(self):
+        pass
+
+    @property
+    def title(self):
+        return self._title
+
+    @property
+    def author(self):
+        return self._author
+
+    @property
+    def year_published(self):
+        return self._year_published
+
+
+class Book(LibraryItem):
+    def __init__(self, title, author, year_published, number_of_pages):
+        super().__init__(title, author, year_published)
+        self._number_of_pages = number_of_pages
+
+    def display_details(self):
+        print(f"Book: {self.title} by {self.author}, Published in {self.year_published}, Pages: {self._number_of_pages}")
+
+
+class DVD(LibraryItem):
+    def __init__(self, title, director, year_published, runtime):
+        super().__init__(title, director, year_published)
+        self._runtime = runtime
+
+    def display_details(self):
+        print(f"DVD: {self.title} directed by {self.author}, Published in {self.year_published}, Runtime: {self._runtime} minutes")
+
+
+class LibraryMember(ABC):
+    def __init__(self, name, address, phone_number):
+        self._name = name
+        self._address = address
+        self._phone_number = phone_number
+
+    @abstractmethod
+    def display_details(self):
+        pass
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def address(self):
+        return self._address
+
+    @property
+    def phone_number(self):
+        return self._phone_number
+
+
+class Student(LibraryMember):
+    def __init__(self, name, address, phone_number, student_id):
+        super().__init__(name, address, phone_number)
+        self._student_id = student_id
+
+    def display_details(self):
+        print(f"Student: {self.name}, ID: {self._student_id}, Address: {self.address}, Phone: {self.phone_number}")
+
+
+class Faculty(LibraryMember):
+    def __init__(self, name, address, phone_number, faculty_id):
+        super().__init__(name, address, phone_number)
+        self._faculty_id = faculty_id
+
+    def display_details(self):
+        print(f"Faculty: {self.name}, ID: {self._faculty_id}, Address: {self.address}, Phone: {self.phone_number}")
+
+
+class Library:
+    def __init__(self, name, address, phone_number):
+        self._name = name
+        self._address = address
+        self._phone_number = phone_number
+        self._items = []
+        self._members = []
+
+    def add_item(self, item):
+        self._items.append(item)
+
+    def add_member(self, member):
+        self._members.append(member)
+
+    def display_library_info(self):
+        print(f"Library: {self._name}, Address: {self._address}, Phone: {self._phone_number}")
+
+    def list_items(self):
+        print("Library Items:")
+        for item in self._items:
+            item.display_details()
+
+    def list_members(self):
+        print("Library Members:")
+        for member in self._members:
+            member.display_details()
+
+
+# Example usage:
+if __name__ == "__main__":
+    library = Library("My Library", "123 Main Street", "1-800-555-1212")
+
+    book1 = Book("Harry Potter", "J.K. Rowling", 1997, 256)
+    dvd1 = DVD("The Shawshank Redemption", "Frank Darabont", 1994, 142)
+
+    student1 = Student("John Doe", "123 Elm Street", "1-800-555-1212", 123456789)
+    faculty1 = Faculty("Dr. Smith", "789 Maple Street", "1-800-555-1212", 111222333)
+
+    library.add_item(book1)
+    library.add_item(dvd1)
+
+    library.add_member(student1)
+    library.add_member(faculty1)
+
+    library.display_library_info()
+    library.list_items()
+    library.list_members()
